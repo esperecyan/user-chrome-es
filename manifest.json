@@ -1,0 +1,78 @@
+{
+	"manifest_version": 2,
+	"name": "userChromeES",
+	"description": "uc / userChromeJS+サブスクリプトローダ 風に、ローカルに立てたWebDAVサーバーを介し、WebExtension APIを叩くユーザースクリプトを読み込みます。",
+	"version": "0.1.1",
+	"applications": {
+		"gecko": {
+			"id": "user-chrome-es@id.pokemori.jp"
+		}
+	},
+
+	"permissions": [
+		"http://localhost/*",
+
+		"alarms",
+		"background",
+		"browserSettings",
+		"browsingData",
+		"contextMenus",
+		"contentSettings",
+		"contextualIdentities",
+		"debugger",
+		"downloads",
+		"downloads.open",
+		"find",
+		"identity",
+		"management",
+		"menus",
+		"nativeMessaging",
+		"notifications",
+		"pageCapture",
+		"privacy",
+		"proxy",
+		"sessions",
+		"storage",
+		"theme",
+
+		"unlimitedStorage"
+	],
+	"optional_permissions": [
+		"<all_urls>",
+
+		"bookmarks",
+		"cookies",
+		"geolocation",
+		"history",
+		"idle",
+		"tabs",
+		"topSites",
+		"webNavigation",
+		"webRequest",
+		"webRequestBlocking",
+
+		"clipboardWrite",
+		"clipboardRead"
+	],
+	"content_security_policy": "script-src 'self' blob:; object-src 'self' blob:",
+
+	"background": {
+		"page": "background/background.xhtml"
+	},
+	"browser_action": {
+		"browser_style": true,
+		"default_popup": "popup/popup.xhtml"
+	},
+	"options_ui": {
+		"browser_style": true,
+		"page": "options/options.xhtml"
+	},
+	"devtools_page": "devtools/devtools.xhtml",
+	"sidebar_action": {
+		"browser_style": true,
+		"default_panel": "sidebar/sidebar.xhtml"
+	},
+
+	"author": "100の人",
+	"homepage_url": "https://addons.mozilla.org/firefox/addon/user-chrome-es/"
+}

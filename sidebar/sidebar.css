@@ -1,0 +1,120 @@
+@namespace url("http://www.w3.org/1999/xhtml");
+
+body {
+	margin: 1px;
+}
+
+
+
+menu {
+	list-style: none;
+	padding: unset;
+	margin: unset;
+}
+menu > li > :only-child,
+menu > li > details:only-child > summary {
+	border: unset;
+	outline: unset;
+	background: unset;
+	text-decoration: unset;
+	color: unset;
+	width: 100%;
+	height: unset;
+	box-sizing: border-box;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: "...";
+}
+menu > li > :only-child::-moz-focus-inner,
+menu > li > details:only-child > summary::-moz-focus-inner {
+	border: unset;
+}
+menu > li > :only-child:not(details),
+menu > li > details:only-child > summary {
+	display: list-item;
+	list-style-position: inside;
+	list-style-type: none;
+	list-style-image: url("chrome://global/skin/tree/twisty.svg");
+	padding: 0 0.5em;
+}
+
+
+
+menu > li > details:only-child > summary {
+	cursor: default;
+	list-style-image: url("chrome://global/skin/tree/twisty.svg#clsd");
+}
+menu > li > details:only-child > summary:hover {
+	list-style-image: url("chrome://global/skin/tree/twisty.svg#clsd-hover");
+}
+menu > li > details:only-child[open] > summary {
+	list-style-image: url("chrome://global/skin/tree/twisty.svg#open");
+}
+menu > li > details:only-child[open] > summary:hover {
+	list-style-image: url("chrome://global/skin/tree/twisty.svg#open-hover");
+}
+
+
+
+menu > li > :only-child:not(details),
+menu > li > details:only-child > summary {
+	padding: 0.2em;
+	border-radius: 0.2em;
+	border: solid 1px transparent;
+}
+menu > li > :only-child:not(details):hover,
+menu > li > details:only-child > summary:hover {
+	border-color: lightblue;
+	background: linear-gradient(aliceblue, lavender);
+}
+menu > li > :only-child:not(details):active,
+menu > li > details:only-child > summary:active,
+menu > li > :only-child:not(details):focus,
+menu > li > details:only-child > summary:focus {
+	border-color: cornflowerblue;
+	background: linear-gradient(lavender, lightsteelblue);
+}
+
+
+
+menu > li > :only-child > img:first-of-type,
+menu > li > details:only-child > summary > img:first-of-type {
+	height: 16px;
+	margin-right: 0.2em;
+	vertical-align: middle;
+}
+
+
+
+menu menu > li > :only-child:not(details),
+menu menu > li > details:only-child > summary {
+	padding-left: 1em;
+}
+menu menu menu > li > :only-child:not(details),
+menu menu menu > li > details:only-child > summary {
+	padding-left: 2em;
+}
+menu menu menu menu > li > :only-child:not(details),
+menu menu menu menu > li > details:only-child > summary {
+	padding-left: 3em;
+}
+menu menu menu menu menu > li > :only-child:not(details),
+menu menu menu menu menu > li > details:only-child > summary {
+	padding-left: 4em;
+}
+menu menu menu menu menu menu > li > :only-child:not(details),
+menu menu menu menu menu menu > li > details:only-child > summary {
+	padding-left: 5em;
+}
+menu menu menu menu menu menu menu > li > :only-child:not(details),
+menu menu menu menu menu menu menu > li > details:only-child > summary {
+	padding-left: 6em;
+}
+menu menu menu menu menu menu menu menu > li > :only-child:not(details),
+menu menu menu menu menu menu menu menu > li > details:only-child > summary {
+	padding-left: 7em;
+}
+menu menu menu menu menu menu menu menu menu > li > :only-child:not(details),
+menu menu menu menu menu menu menu menu menu > li > details:only-child > summary {
+	padding-left: 8em;
+}

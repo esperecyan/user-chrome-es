@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>userChromeES</title>
+		<link rel="stylesheet" href="options.css" />
+	</head>
+	<body>
+		<article>
+			<h1>userChromeES</h1>
+			<p>指定したWebDAVディレクトリ直下の <code>*.uc.js</code>、または <code>*.uc.es</code> を、アドオン起動時に読み込みます。</p>
+			<form name="user-chrome-es">
+				<dl>
+					<dt><label for="user-chrome-es-directory">WebDAVディレクトリのURL</label></dt>
+					<dd><input type="url" name="directory" pattern="\s*http://localhost(?::[0-9]+)?/([^?#]+/)?\s*"
+						title="「http://localhost」で始まり、「/」で終わるURLを入力してください。"
+						placeholder="http://locahost:ポート/パス/"
+						id="user-chrome-es-directory" /></dd>
+				</dl>
+				<button name="save" disabled="">保存</button>
+			</form>
+		</article>
+		<script src="user-chrome-es-options-storage.es"></script>
+		<script src="options.es"></script>
+	</body>
+</html>

@@ -1,0 +1,12 @@
+globals:
+  WebDAVClient: true
+  UserChromeESOptionsStorage: true
+  UserScriptsInitializer: true
+  h: true
+  parseUserScript: true
+
+parserOptions:
+  ecmaVersion: 2017
+
+env:
+  webextensions: true
