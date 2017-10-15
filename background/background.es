@@ -28,11 +28,23 @@ new class Background {
 		const directory = (await UserChromeESOptionsStorage.getOptionsFromStorage()).directory;
 
 		if (directory) {
-			console.info(`${directory} からスクリプトを取得します。`);
-			await new UserScriptsInitializer().loadScripts(await this.getScriptFileURLs(directory));
-		} else {
-			console.warn('WebDAVディレクトリのURLを設定する必要があります。');
+			if (Background.ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN.test(directory)) {
+				console.info(`${directory} からスクリプトを取得します。`);
+				await new UserScriptsInitializer().loadScripts(await this.getScriptFileURLs(directory));
+				return;
+			} else {
+				UserChromeESOptionsStorage.setOptionsToStorage({directory: ''});
+				const message = `WebDAVディレクトリのURLが、ユーザースクリプトにって不正な値「${directory}」に変更されたため、設定を削除し、userChromeESを再起動しました。`;
+				console.error(message);
+				browser.notifications.create('', {
+					type: 'basic',
+					title: 'userChromeES',
+					message: message,
+				});
+			}
 		}
+
+		console.warn('WebDAVディレクトリのURLを設定する必要があります。');
 	}
 
 	/**
@@ -50,17 +62,6 @@ new class Background {
 	 */
 	watchWebDAVDirectorySettingChanged(directory)
 	{
-		UserChromeESOptionsStorage.getOptionsFromStorage().then(function (options) {
-			if (options.webDAVDirectorySettingChangedIllegally) {
-				browser.notifications.create('', {
-					type: 'basic',
-					title: 'userChromeES',
-					message: 'WebDAVディレクトリのURLが、ユーザースクリプトにって不正な値に変更されたため、設定を削除し、userChromeESを再起動しました。',
-				});
-				UserChromeESOptionsStorage.setOptionsToStorage({webDAVDirectorySettingChangedIllegally: false});
-			}
-		});
-
 		browser.storage.onChanged.addListener(function (changes, areaName) {
 			if (areaName === 'local') {
 				const userChromeESOptionsStorageChnage = changes['user-chrome-es'];
@@ -73,12 +74,9 @@ new class Background {
 							console.groupEnd();
 						} else {
 							console.error(`WebDAVディレクトリのURLが、ユーザースクリプトにって不正な値 ${newDirectory} に変更されました。`
-								+ '設定を削除し、userChromeESを再起動します。');
+								+ 'userChromeESを再起動します。');
 							console.groupEnd();
-							browser.storage.local.set({'user-chrome-es': {
-								directory: '',
-								webDAVDirectorySettingChangedIllegally: true,
-							}}).then(() => browser.runtime.reload());
+							browser.runtime.reload();
 						}
 					}
 				}
