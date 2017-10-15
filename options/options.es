@@ -9,11 +9,13 @@ new class {
 
 	/**
 	 * @param {Event} event
+	 * @returns {Promise.<void>}
 	 */
-	handleEvent(event)
+	async handleEvent(event)
 	{
 		event.preventDefault();
-		UserChromeESOptionsStorage.setOptionsToStorage({directory: event.target.directory.value.trim()});
+		await UserChromeESOptionsStorage.setOptionsToStorage({directory: event.target.directory.value.trim()});
+		browser.runtime.reload();
 	}
 
 	/**
