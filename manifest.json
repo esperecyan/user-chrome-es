@@ -51,6 +51,8 @@
 		"webRequest",
 		"webRequestBlocking",
 
+		"activeTab",
+
 		"clipboardWrite",
 		"clipboardRead"
 	],
