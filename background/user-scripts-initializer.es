@@ -7,8 +7,9 @@ window.UserScriptsInitializer = class {
 
 	static executeScripts(win)
 	{
-		win.document.body
-			.append(UserScriptsInitializer.scripts[/^\/(.+)\/\1\.xhtml$/.exec(win.location.pathname)[1]]);
+		win.document.body.append(
+			UserScriptsInitializer.scripts[/^\/(.+)\/\1\.xhtml$/.exec(win.location.pathname)[1]].cloneNode(true)
+		);
 	}
 
 	/**
