@@ -1,5 +1,5 @@
 globals:
-  WebDAVClient: true
+  FTPClient: true
   UserChromeESOptionsStorage: true
   UserScriptsInitializer: true
   h: true

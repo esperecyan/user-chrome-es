@@ -14,7 +14,10 @@ new class {
 	async handleEvent(event)
 	{
 		event.preventDefault();
-		await UserChromeESOptionsStorage.setOptionsToStorage({directory: event.target.directory.value.trim()});
+		const directory = event.target.directory.value;
+		await UserChromeESOptionsStorage.setOptionsToStorage({
+			directory: new URL((/^[A-Za-z]:[\\/]/.test(directory) ? '/' : '') + directory, 'file:///').href,
+		});
 		browser.runtime.reload();
 	}
 

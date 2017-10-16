@@ -3,11 +3,11 @@ new class Background {
 	/**
 	 * @constant {RegExp}
 	 */
-	static get ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN() {return /^http:\/\/localhost(?::[0-9]+)?\/([^?#]+\/)?$/;}
+	static get ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN() {return /^file:\/\/\/[^?#]*$/;}
 
 	constructor()
 	{
-		this.watchWebDAVDirectorySettingChanged();
+		this.watchDirectorySettingChanged();
 
 		console.group('userChromeES');
 		this.initialize()
@@ -34,7 +34,7 @@ new class Background {
 				return;
 			} else {
 				UserChromeESOptionsStorage.setOptionsToStorage({directory: ''});
-				const message = `WebDAVディレクトリのURLが、ユーザースクリプトにって不正な値「${directory}」に変更されたため、設定を削除し、userChromeESを再起動しました。`;
+				const message = `ディレクトリのURLが、ユーザースクリプトにって不正な値「${directory}」に変更されたため、設定を削除し、userChromeESを再起動しました。`;
 				console.error(message);
 				browser.notifications.create('', {
 					type: 'basic',
@@ -44,7 +44,7 @@ new class Background {
 			}
 		}
 
-		console.warn('WebDAVディレクトリのURLを設定する必要があります。');
+		console.warn('ディレクトリのURLを設定する必要があります。');
 	}
 
 	/**
@@ -54,13 +54,13 @@ new class Background {
 	 */
 	async getScriptFileURLs(directory)
 	{
-		return (await WebDAVClient.index(directory)).filter(fileURL => /\.uc\.(?:es|js)$/.test(fileURL));
+		return (await FTPClient.index(directory)).filter(fileURL => /\.uc\.(?:es|js)$/.test(fileURL));
 	}
 
 	/**
 	 * @access private
 	 */
-	watchWebDAVDirectorySettingChanged(directory)
+	watchDirectorySettingChanged(directory)
 	{
 		browser.storage.onChanged.addListener(function (changes, areaName) {
 			if (areaName === 'local') {
@@ -70,10 +70,10 @@ new class Background {
 					if (newDirectory) {
 						console.group('userChromeES');
 						if (Background.ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN.test(newDirectory)) {
-							console.info(`WebDAVディレクトリのURLが ${newDirectory} に変更されました。`);
+							console.info(`ディレクトリのURLが ${newDirectory} に変更されました。`);
 							console.groupEnd();
 						} else {
-							console.error(`WebDAVディレクトリのURLが、ユーザースクリプトにって不正な値 ${newDirectory} に変更されました。`
+							console.error(`ディレクトリのURLが、ユーザースクリプトにって不正な値 ${newDirectory} に変更されました。`
 								+ 'userChromeESを再起動します。');
 							console.groupEnd();
 							browser.runtime.reload();

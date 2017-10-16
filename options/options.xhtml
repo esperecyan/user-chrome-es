@@ -8,13 +8,13 @@
 	<body>
 		<article>
 			<h1>userChromeES</h1>
-			<p>指定したWebDAVディレクトリ直下の <code>*.uc.js</code>、または <code>*.uc.es</code> を、アドオン起動時に読み込みます。</p>
+			<p>指定したディレクトリ直下の <code>*.uc.js</code>、または <code>*.uc.es</code> を、アドオン起動時に読み込みます。</p>
 			<form name="user-chrome-es">
 				<dl>
-					<dt><label for="user-chrome-es-directory">WebDAVディレクトリのURL</label></dt>
-					<dd><input type="url" name="directory" pattern="\s*http://localhost(?::[0-9]+)?/([^?#]+/)?\s*"
-						title="「http://localhost」で始まり、「/」で終わるURLを入力してください。"
-						placeholder="http://locahost:ポート/パス/"
+					<dt><label for="user-chrome-es-directory">ディレクトリのURL</label></dt>
+					<dd><input name="directory" pattern="(file:///|[A-Za-z]:[\\/]|/)[^?#]*"
+						title="ディレクトリのフルパスを入力してください。"
+						placeholder="(例) files:///C:/Users/user/Documents/chrome/"
 						id="user-chrome-es-directory" /></dd>
 				</dl>
 				<button name="save" disabled="">保存して再読み込み</button>

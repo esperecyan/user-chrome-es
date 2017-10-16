@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "userChromeES",
-	"description": "uc / userChromeJS+サブスクリプトローダ 風に、ローカルに立てたWebDAVサーバーを介し、WebExtension APIを叩くユーザースクリプトを読み込みます。",
+	"description": "uc / userChromeJS+サブスクリプトローダ 風に、WebExtension APIを叩くユーザースクリプトを読み込みます。",
 	"version": "0.2.0",
 	"applications": {
 		"gecko": {
@@ -10,7 +10,7 @@
 	},
 
 	"permissions": [
-		"http://localhost/*",
+		"file:///*",
 
 		"alarms",
 		"background",
