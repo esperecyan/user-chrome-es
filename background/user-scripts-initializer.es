@@ -57,7 +57,7 @@ window.UserScriptsInitializer = class {
 				UserScriptsInitializer.scripts[value].append(this.createScriptElement(file));
 			}
 
-			const fileName = /[^/]*$/.exec(url)[0];
+			const fileName = decodeURIComponent(/[^/]*$/.exec(url)[0]);
 
 			UserScriptsInitializer.scriptsInfomation.push({
 				name: metaData.name || fileName,
