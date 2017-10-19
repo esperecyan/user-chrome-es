@@ -34,13 +34,7 @@ new class Background {
 				return;
 			} else {
 				UserChromeESOptionsStorage.setOptionsToStorage({directory: ''});
-				const message = `ディレクトリのURLが、ユーザースクリプトにって不正な値「${directory}」に変更されたため、設定を削除し、userChromeESを再起動しました。`;
-				console.error(message);
-				browser.notifications.create('', {
-					type: 'basic',
-					title: 'userChromeES',
-					message: message,
-				});
+				console.error(`ディレクトリのURLが、ユーザースクリプトにって不正な値「${directory}」に変更されたため、設定を削除し、userChromeESを再起動しました。`);
 			}
 		}
 
