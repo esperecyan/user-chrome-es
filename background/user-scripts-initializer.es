@@ -59,7 +59,9 @@ window.UserScriptsInitializer = class {
 
 			UserScriptsInitializer.scriptsInfomation.push({
 				name: metaData.name || fileName,
-				url: url,
+				fileName: fileName,
+				description: metaData.description || null,
+				includes: metaData.includes,
 			});
 
 			table[fileName] = {
@@ -153,7 +155,7 @@ window.UserScriptsInitializer = class {
 
 if (location.pathname === '/background/background.xhtml') {
 	/**
-	 * @type {Array.<Object.<string>>}
+	 * @type {Array.<Object.<(?string|string[])>>}
 	 */
 	UserScriptsInitializer.scriptsInfomation = [];
 
