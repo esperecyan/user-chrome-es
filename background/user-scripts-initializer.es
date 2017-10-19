@@ -5,11 +5,34 @@ window.UserScriptsInitializer = class {
 	 */
 	static get VALID_INCLUDE_KEY_VALUES() {return ['background', 'popup', 'options', 'devtools', 'sidebar'];}
 
-	static executeScripts(win)
+	static async executeScripts()
 	{
-		win.document.body.append(
-			UserScriptsInitializer.scripts[/^\/(.+)\/\1\.xhtml$/.exec(win.location.pathname)[1]].cloneNode(true)
-		);
+		const backgroundPage = await browser.runtime.getBackgroundPage();
+		try {
+			if (await browser.runtime.sendMessage('is-ready-user-scripts-initialized')) {
+				UserScriptsInitializer.basicExecuteScripts(backgroundPage);
+				return;
+			}
+		} catch (exception) {
+			if (exception.name !== 'Error'
+				|| exception.message !== 'Could not establish connection. Receiving end does not exist.') {
+				throw exception;
+			}
+		}
+		browser.runtime.onMessage.addListener(function (message) {
+			if (message === 'ready-user-scripts-initialized') {
+				UserScriptsInitializer.basicExecuteScripts(backgroundPage);
+			}
+		});
+	}
+
+	/**
+	 * @param {Window} backgroundPage
+	 */
+	static basicExecuteScripts(backgroundPage)
+	{
+		document.body.append(backgroundPage
+			.UserScriptsInitializer.scripts[/^\/(.+)\/\1\.xhtml$/.exec(location.pathname)[1]].cloneNode(true));
 	}
 
 	/**
@@ -52,6 +75,9 @@ window.UserScriptsInitializer = class {
 		} else {
 			console.info('スクリプトは一つも読み込まれていません。');
 		}
+
+		UserScriptsInitializer.alreadyLoaded = true;
+		browser.runtime.sendMessage('ready-user-scripts-initialized');
 	}
 
 	/**
@@ -125,16 +151,30 @@ window.UserScriptsInitializer = class {
 	}
 };
 
-/**
- * @type {Array.<Object.<string>>}
- */
-UserScriptsInitializer.scriptsInfomation = [];
+if (location.pathname === '/background/background.xhtml') {
+	/**
+	 * @type {Array.<Object.<string>>}
+	 */
+	UserScriptsInitializer.scriptsInfomation = [];
 
-/**
- * @access private
- * @type {Object.<DocumentFragment>}
- */
-UserScriptsInitializer.scripts = {};
-for (const value of UserScriptsInitializer.VALID_INCLUDE_KEY_VALUES) {
-	UserScriptsInitializer.scripts[value] = new DocumentFragment();
+	/**
+	 * @access private
+	 * @type {Object.<DocumentFragment>}
+	 */
+	UserScriptsInitializer.scripts = {};
+	for (const value of UserScriptsInitializer.VALID_INCLUDE_KEY_VALUES) {
+		UserScriptsInitializer.scripts[value] = new DocumentFragment();
+	}
+
+	/**
+	 * @access private
+	 * @type {boolean}
+	 */
+	UserScriptsInitializer.alreadyLoaded = false;
+
+	browser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+		if (request === 'is-ready-user-scripts-initialized') {
+			sendResponse(UserScriptsInitializer.alreadyLoaded);
+		}
+	});
 }

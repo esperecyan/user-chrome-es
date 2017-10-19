@@ -4,7 +4,7 @@ new class {
 	{
 		this.initializeForm();
 
-		browser.runtime.getBackgroundPage().then(win => win.UserScriptsInitializer.executeScripts(window));
+		UserScriptsInitializer.executeScripts();
 	}
 
 	/**

@@ -2,14 +2,14 @@
 new class {
 	constructor()
 	{
-		browser.runtime.getBackgroundPage().then(function (win) {
-			document.getElementsByTagName('menu')[1].insertAdjacentHTML('beforeend', win.UserScriptsInitializer
+		browser.runtime.getBackgroundPage().then(async function (win) {
+			await UserScriptsInitializer.executeScripts();
+
+			document.getElementById('user-scripts-info').insertAdjacentHTML('beforeend', win.UserScriptsInitializer
 				.scriptsInfomation.map(info => h`<li><a href="${info.url}">
 					<img src="chrome://browser/content/extension.svg" alt="" />
 					${info.name}
 				</a></li>`).join(''));
-
-			win.UserScriptsInitializer.executeScripts(window);
 		});
 
 		const menu = document.getElementsByTagName('menu')[0];

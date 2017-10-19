@@ -16,7 +16,7 @@ new class Background {
 				setTimeout(console.groupEnd, 1);
 				throw exception;
 			})
-			.then(() => UserScriptsInitializer.executeScripts(window));
+			.then(() => UserScriptsInitializer.basicExecuteScripts(window));
 	}
 
 	/**
