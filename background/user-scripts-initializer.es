@@ -1,3 +1,5 @@
+(function () {
+'use strict';
 
 window.UserScriptsInitializer = class {
 	/**
@@ -180,3 +182,5 @@ if (location.pathname === '/background/background.xhtml') {
 		}
 	});
 }
+
+})();

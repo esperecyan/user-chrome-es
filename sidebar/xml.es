@@ -1,3 +1,4 @@
+'use strict';
 
 class XML
 {
@@ -57,7 +58,7 @@ class XML
  * @param {...string} plainText
  * @returns {string} A HTML string.
  */
-function h(...arguments)
+function h(...args)
 {
-	return Array.isArray(arguments[0]) ? XML.escapeTemplateStrings(...arguments) : XML.escape(arguments[0]);
+	return Array.isArray(args[0]) ? XML.escapeTemplateStrings(...args) : XML.escape(args[0]);
 }
