@@ -1,19 +1,23 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
-form[name="user-chrome-es"],
-form[name="user-chrome-es"] dl {
-	display: flex;
-	align-items: center;
+form[name="user-chrome-es"] dt {
+	font-weight: bold;
 }
 
-form[name="user-chrome-es"] dd {
-	margin-left: 0.5em;
+form[name="user-chrome-es"] dt ~ dt {
+	margin-top: 1em;
+}
+
+form[name="user-chrome-es"] small {
+	font-size: unset;
+	color: grey;
+}
+
+form[name="user-chrome-es"] code {
+	background: gainsboro;
+	padding: 0 0.2em;
 }
 
 form[name="user-chrome-es"] [name="directory"] {
 	width: 35em;
-}
-
-form[name="user-chrome-es"] button {
-	margin-left: 0.5em;
 }

@@ -15,10 +15,9 @@ class UserChromeESOptionsStorage
 	 */
 	static async getOptionsFromStorage()
 	{
-		return (await browser.storage.local.get({
-			'user-chrome-es': {
-				directory: '',
-			},
-		}))['user-chrome-es'];
+		return Object.assign({
+			directory: '',
+			alwaysFetchedScripts: [],
+		}, (await browser.storage.local.get('user-chrome-es'))['user-chrome-es']);
 	}
 }

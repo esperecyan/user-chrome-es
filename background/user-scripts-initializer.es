@@ -7,6 +7,9 @@ window.UserScriptsInitializer = class {
 	 */
 	static get VALID_INCLUDE_KEY_VALUES() {return ['background', 'popup', 'options', 'devtools', 'sidebar'];}
 
+	/**
+	 * @returns {Promise.<void>}
+	 */
 	static async executeScripts()
 	{
 		const backgroundPage = await browser.runtime.getBackgroundPage();
@@ -21,27 +24,37 @@ window.UserScriptsInitializer = class {
 				throw exception;
 			}
 		}
-		browser.runtime.onMessage.addListener(function (message) {
-			if (message === 'ready-user-scripts-initialized') {
-				UserScriptsInitializer.basicExecuteScripts(backgroundPage);
-			}
+		return new Promise(function (resolve) {
+			browser.runtime.onMessage.addListener(async function ready(message) {
+				if (message === 'ready-user-scripts-initialized') {
+					browser.runtime.onMessage.removeListener(ready);
+					await UserScriptsInitializer.basicExecuteScripts(backgroundPage);
+					return resolve();
+				}
+			});
 		});
 	}
 
 	/**
 	 * @param {Window} backgroundPage
 	 */
-	static basicExecuteScripts(backgroundPage)
+	static async basicExecuteScripts(backgroundPage)
 	{
-		document.body.append(backgroundPage
-			.UserScriptsInitializer.scripts[/^\/(.+)\/\1\.xhtml$/.exec(location.pathname)[1]].cloneNode(true));
+		const scripts = backgroundPage.UserScriptsInitializer.scripts[/^\/(.+)\/\1\.xhtml$/.exec(location.pathname)[1]];
+
+		document.body.append(scripts.onceFetched.cloneNode(true));
+
+		for (const url of scripts.alwaysFetched) {
+			document.body.append(this.createScriptElement(await this.getScriptFile(url)));
+		}
 	}
 
 	/**
 	 * @param {string[]} scriptFileURLs
+	 * @param {string[]} alwaysFetchedScriptFileNames
 	 * @returns {Promise.<void>}
 	 */
-	async loadScripts(scriptFileURLs)
+	static async loadScripts(scriptFileURLs, alwaysFetchedScriptFileNames)
 	{
 		const table = {};
 
@@ -53,15 +66,22 @@ window.UserScriptsInitializer = class {
 				continue;
 			}
 
+			const originalFileName = /[^/]*$/.exec(url)[0];
+
 			for (const value of metaData.includes) {
-				UserScriptsInitializer.scripts[value].append(this.createScriptElement(file));
+				if (alwaysFetchedScriptFileNames.includes(originalFileName)) {
+					this.scripts[value].alwaysFetched.push(url);
+				} else {
+					this.scripts[value].onceFetched.append(this.createScriptElement(file));
+				}
 			}
 
-			const fileName = decodeURIComponent(/[^/]*$/.exec(url)[0]);
+			const fileName = decodeURIComponent(originalFileName);
 
 			UserScriptsInitializer.scriptsInfomation.push({
 				name: metaData.name || fileName,
 				fileName: fileName,
+				originalFileName: originalFileName,
 				description: metaData.description || null,
 				includes: metaData.includes,
 			});
@@ -89,7 +109,7 @@ window.UserScriptsInitializer = class {
 	 * @param {Blob} file
 	 * @returns {HTMLScriptElement}
 	 */
-	createScriptElement(file)
+	static createScriptElement(file)
 	{
 		const script = document.createElement('script');
 		script.src = URL.createObjectURL(file);
@@ -102,7 +122,7 @@ window.UserScriptsInitializer = class {
 	 * @param {string} url
 	 * @returns {boolean}
 	 */
-	validateMetaData(metaData, url)
+	static validateMetaData(metaData, url)
 	{
 		if (!metaData) {
 			console.error(`メタデータが含まれていないため、 ${url} を無視します。`);
@@ -127,7 +147,7 @@ window.UserScriptsInitializer = class {
 	 * @param {Blob} file
 	 * @returns {Promise.<Object>}
 	 */
-	async getMetaData(file)
+	static async getMetaData(file)
 	{
 		const metaData = parseUserScript(await new Response(file).text(), 'https://dummy.invalid/', true);
 		if (metaData) {
@@ -143,7 +163,7 @@ window.UserScriptsInitializer = class {
 	 * @param {string} url
 	 * @returns {Promise.<Blob>}
 	 */
-	async getScriptFile(url)
+	static async getScriptFile(url)
 	{
 		const response = await fetch(url, {mode:'same-origin'});
 
@@ -163,11 +183,14 @@ if (location.pathname === '/background/background.xhtml') {
 
 	/**
 	 * @access private
-	 * @type {Object.<DocumentFragment>}
+	 * @type {Object.<Object.(DocumentFragment|string[])>}
 	 */
 	UserScriptsInitializer.scripts = {};
 	for (const value of UserScriptsInitializer.VALID_INCLUDE_KEY_VALUES) {
-		UserScriptsInitializer.scripts[value] = new DocumentFragment();
+		UserScriptsInitializer.scripts[value] = {
+			onceFetched: new DocumentFragment(),
+			alwaysFetched: [],
+		};
 	}
 
 	/**

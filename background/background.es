@@ -25,16 +25,18 @@ new class Background {
 	 */
 	async initialize()
 	{
-		const directory = (await UserChromeESOptionsStorage.getOptionsFromStorage()).directory;
+		const options = (await UserChromeESOptionsStorage.getOptionsFromStorage());
 
-		if (directory) {
-			if (Background.ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN.test(directory)) {
-				console.info(`${directory} からスクリプトを取得します。`);
-				await new UserScriptsInitializer().loadScripts(await this.getScriptFileURLs(directory));
+		if (options.directory) {
+			if (Background.ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN.test(options.directory)) {
+				console.info(`${options.directory} からスクリプトを取得します。`);
+				await UserScriptsInitializer
+					.loadScripts(await this.getScriptFileURLs(options.directory), options.alwaysFetchedScripts);
 				return;
 			} else {
 				UserChromeESOptionsStorage.setOptionsToStorage({directory: ''});
-				console.error(`ディレクトリのURLが、ユーザースクリプトにって不正な値「${directory}」に変更されたため、設定を削除し、userChromeESを再起動しました。`);
+				console
+					.error(`ディレクトリのURLが、ユーザースクリプトにって不正な値「${options.directory}」に変更されたため、設定を削除し、userChromeESを再起動しました。`);
 			}
 		}
 
