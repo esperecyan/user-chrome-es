@@ -10,6 +10,16 @@ userChromeES
 [userChromeJS]: http://userchromejs.mozdev.org/ "JavaScriptを通して、Firefoxのインターフェイスを簡単に改造するための拡張"
 [サブスクリプトローダ]: https://github.com/alice0775/userChrome.js/blob/master/userChrome.js "userChrome.jsというファイル名でプロファイルフォルダの中のchromeフォルダに置くことで、同フォルダ内の *.uc.jsファイル(example.uc.jsといったように)や *.uc.xulファイル(または*.xulファイル)を自動で全て読み込むようになります。"
 
+インストール
+------------
+[Releasesページ]の「Downloads」で、「user-chrome-es-○○○.xpi」となっているリンクをクリックします。
+
+なお、ローカルにあるスクリプトファイルの読み込みについて、[リモートコードの実行]であると判断されたため、当アドオンは[Addons.mozilla.org (AMO)]から削除されています。
+
+[Releasesページ]: https://github.com/esperecyan/user-chrome-es/releases
+[リモートコードの実行]: https://developer.mozilla.org/Add-ons/AMO/Policy/Reviews#ポリシー
+[Addons.mozilla.org (AMO)]: https://addons.mozilla.org/
+
 メタデータ
 ----------
 各ユーザースクリプトには[Greasemonkey風のメタデータブロック]が必要です。当アドオンでは以下のキーを解釈します。
