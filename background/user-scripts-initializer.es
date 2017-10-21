@@ -12,7 +12,7 @@ window.UserScriptsInitializer = class {
 	 */
 	static async executeScripts()
 	{
-		const backgroundPage = await browser.runtime.getBackgroundPage();
+		const backgroundPage = browser.runtime.getBackgroundPage ? await browser.runtime.getBackgroundPage() : null;
 		try {
 			if (await browser.runtime.sendMessage('is-ready-user-scripts-initialized')) {
 				UserScriptsInitializer.basicExecuteScripts(backgroundPage);
@@ -36,16 +36,28 @@ window.UserScriptsInitializer = class {
 	}
 
 	/**
-	 * @param {Window} backgroundPage
+	 * @param {?Window} backgroundPage
 	 */
 	static async basicExecuteScripts(backgroundPage)
 	{
-		const scripts = backgroundPage.UserScriptsInitializer.scripts[/^\/(.+)\/\1\.xhtml$/.exec(location.pathname)[1]];
+		const includeValue = /^\/(.+)\/\1\.xhtml$/.exec(location.pathname)[1];
+		const scripts = backgroundPage
+			? backgroundPage.UserScriptsInitializer.scripts[includeValue]
+			: await browser.runtime.sendMessage({getUserScripts: includeValue});
 
-		document.body.append(scripts.onceFetched.cloneNode(true));
+		if (scripts.onceFetched instanceof DocumentFragment) {
+			document.body.append(scripts.onceFetched.cloneNode(true));
+		} else {
+			scripts.onceFetched.map(setTimeout); // eval()
+		}
 
 		for (const url of scripts.alwaysFetched) {
-			document.body.append(this.createScriptElement(await this.getScriptFile(url)));
+			const scriptFile = await this.getScriptFile(url);
+			if (scripts.onceFetched instanceof DocumentFragment) {
+				document.body.append(this.createScriptElement(scriptFile));
+			} else {
+				setTimeout(await new Response(scriptFile).text()); // eval()
+			}
 		}
 	}
 
@@ -72,7 +84,11 @@ window.UserScriptsInitializer = class {
 				if (alwaysFetchedScriptFileNames.includes(originalFileName)) {
 					this.scripts[value].alwaysFetched.push(url);
 				} else {
-					this.scripts[value].onceFetched.append(this.createScriptElement(file));
+					if (this.scripts[value].onceFetched instanceof DocumentFragment) {
+						this.scripts[value].onceFetched.append(this.createScriptElement(file));
+					} else {
+						this.scripts[value].onceFetched.push(await new Response(file).text());
+					}
 				}
 			}
 
@@ -188,7 +204,7 @@ if (location.pathname === '/background/background.xhtml') {
 	UserScriptsInitializer.scripts = {};
 	for (const value of UserScriptsInitializer.VALID_INCLUDE_KEY_VALUES) {
 		UserScriptsInitializer.scripts[value] = {
-			onceFetched: new DocumentFragment(),
+			onceFetched: value === 'devtools' ? [] : new DocumentFragment(),
 			alwaysFetched: [],
 		};
 	}
@@ -202,6 +218,8 @@ if (location.pathname === '/background/background.xhtml') {
 	browser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 		if (request === 'is-ready-user-scripts-initialized') {
 			sendResponse(UserScriptsInitializer.alreadyLoaded);
+		} else if (request.getUserScripts) {
+			sendResponse(UserScriptsInitializer.scripts[request.getUserScripts]);
 		}
 	});
 }
