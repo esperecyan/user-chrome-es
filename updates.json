@@ -3,6 +3,11 @@
 		"user-chrome-es@id.pokemori.jp": {
 			"updates": [
 				{
+					"version": "0.4.0",
+					"update_link": "https://github.com/esperecyan/user-chrome-es/releases/download/v0.4.0/user-chrome-es-0.4.0.xpi",
+					"update_info_url": "https://github.com/esperecyan/user-chrome-es/releases/v0.4.0"
+				},
+				{
 					"version": "0.3.0",
 					"update_link": "https://github.com/esperecyan/user-chrome-es/releases/download/v0.3.0/user-chrome-es-0.3.0.xpi",
 					"update_info_url": "https://github.com/esperecyan/user-chrome-es/releases/v0.3.0"
