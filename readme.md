@@ -17,9 +17,13 @@ This add-on loads files which extension is `*.uc.js` or `*.uc.es` from the WebDA
 
 Installation
 ------------
-You can install this add-on from [userChromeES – Add-ons for Firefox] on Addons.mozilla.org (AMO).
+In the [Downloads] section of the [Releases page], click on the link that says "user-chrome-es-xxx.xpi".
 
-[userChromeES – Add-ons for Firefox]: https://addons.mozilla.org/firefox/addon/user-chrome-es/
+As a side note, this add-on has been removed from [Addons.mozilla.org (AMO)] because it was regarded loading local script files as [loading remote code for execution].
+
+[Releases page]: https://github.com/esperecyan/user-chrome-es/releases
+[loading remote code for execution]: https://extensionworkshop.com/documentation/publish/add-on-policies/#development-practices
+[Addons.mozilla.org (AMO)]: https://addons.mozilla.org/
 
 MetaData
 --------

@@ -17,9 +17,13 @@ WebExtensionではローカルのファイルを直接読み込めない (Fiefox
 
 インストール
 ------------
-Addons.mozilla.org (AMO) の[userChromeES :: Firefox 向けアドオン]からインストールできます。
+[Releasesページ]の「Downloads」で、「user-chrome-es-○○○.xpi」となっているリンクをクリックします。
 
-[userChromeES :: Firefox 向けアドオン]: https://addons.mozilla.org/ja/firefox/addon/user-chrome-es/
+なお、ローカルにあるスクリプトファイルの読み込みについて、[リモートコードの実行]であると判断されたため、当アドオンは[Addons.mozilla.org (AMO)]から削除されています。
+
+[Releasesページ]: https://github.com/esperecyan/user-chrome-es/releases
+[リモートコードの実行]: https://extensionworkshop.com/documentation/publish/add-on-policies/#development-practices
+[Addons.mozilla.org (AMO)]: https://addons.mozilla.org/
 
 メタデータ
 ----------

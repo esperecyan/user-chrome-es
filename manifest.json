@@ -6,7 +6,8 @@
 	"applications": {
 		"gecko": {
 			"id": "user-chrome-es@id.pokemori.jp",
-			"strict_min_version": "56.0"
+			"strict_min_version": "56.0",
+			"update_url": "https://raw.githubusercontent.com/esperecyan/user-chrome-es/master/updates.json"
 		}
 	},
 
@@ -77,5 +78,5 @@
 	"default_locale": "en",
 
 	"author": "100の人",
-	"homepage_url": "https://addons.mozilla.org/firefox/addon/user-chrome-es/"
+	"homepage_url": "https://github.com/esperecyan/user-chrome-es"
 }
