@@ -2,11 +2,10 @@
 	"manifest_version": 2,
 	"name": "userChromeES",
 	"description": "uc / userChromeJS+サブスクリプトローダ 風に、WebExtension APIを叩くユーザースクリプトを読み込みます。",
-	"version": "0.4.1",
+	"version": "0.4.2",
 	"applications": {
 		"gecko": {
-			"id": "user-chrome-es@id.pokemori.jp",
-			"update_url": "https://raw.githubusercontent.com/esperecyan/user-chrome-es/master/updates.json"
+			"id": "user-chrome-es@id.pokemori.jp"
 		}
 	},
 
@@ -77,5 +76,5 @@
 	},
 
 	"author": "100の人",
-	"homepage_url": "https://github.com/esperecyan/user-chrome-es"
+	"homepage_url": "https://addons.mozilla.org/firefox/addon/user-chrome-es/"
 }
