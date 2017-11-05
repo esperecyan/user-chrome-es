@@ -174,14 +174,13 @@ window.UserScriptsInitializer = class {
 	}
 
 	/**
-	 * @see [javascript — Firefox WebExtensions, get local files content by path — Stack Overflow]{@link https://stackoverflow.com/a/44516256}
 	 * @access private
 	 * @param {string} url
 	 * @returns {Promise.<Blob>}
 	 */
 	static async getScriptFile(url)
 	{
-		const response = await fetch(url, {mode:'same-origin'});
+		const response = await fetch(url);
 
 		if (response.status === 200) {
 			return response.blob();

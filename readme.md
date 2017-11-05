@@ -1,14 +1,17 @@
 userChromeES
 ============
-[uc] / [userChromeJS]+[サブスクリプトローダ] 風に、WebExtension APIを叩くユーザースクリプトを読み込むFirefoxアドオンです。
+[uc] / [userChromeJS]+[サブスクリプトローダ] 風に、ローカルに立てた[WebDAV]サーバーを介し、WebExtension APIを叩くユーザースクリプトを読み込むFirefoxアドオンです。
 
 **※XPCOM APIにアクセスできるようにするアドオンではないため、userChromeJS用のユーザースクリプトとはまったく互換性がありません。**
 
-アドオンの設定で指定したローカルフォルダのパスから、拡張子が `*.uc.js`、または `*.uc.es` となっているファイルを、アドオン起動時に読み込みます。サブディレクトリからは読み込みません。
+WebExtensionではローカルのファイルを直接読み込めない (Fiefox 57以降) ため、**あらかじめローカルにWebDAVサーバーを立てる必要があります。**
+
+アドオンの設定で指定したWebDAVディレクトリのURLから、拡張子が `*.uc.js`、または `*.uc.es` となっているファイルを、アドオン起動時に読み込みます。サブディレクトリからは読み込みません。
 
 [uc]: https://addons.mozilla.org/firefox/addon/uc/ "userChromeJS + Sub-Script/Overlay Loader"
 [userChromeJS]: http://userchromejs.mozdev.org/ "JavaScriptを通して、Firefoxのインターフェイスを簡単に改造するための拡張"
 [サブスクリプトローダ]: https://github.com/alice0775/userChrome.js/blob/master/userChrome.js "userChrome.jsというファイル名でプロファイルフォルダの中のchromeフォルダに置くことで、同フォルダ内の *.uc.jsファイル(example.uc.jsといったように)や *.uc.xulファイル(または*.xulファイル)を自動で全て読み込むようになります。"
+[WebDAV]: https://ja.wikipedia.org/wiki/WebDAV "WebDAVはHypertext Transfer Protocolを拡張したもので、Webサーバ上のファイル管理を目的とした分散ファイルシステムを実現するプロトコルである。"
 
 インストール
 ------------
@@ -72,7 +75,7 @@ Addons.mozilla.org (AMO) の[userChromeES :: Firefox 向けアドオン]から�
 ユーザースクリプトはすべてのWebExtension APIを利用できますが、以下の権限は `optional_permissions` manifest.json キーに含まれています。
 そのため、`/options/options.xhtml` をタブとして開くなどした上で、[permissions API]を利用して権限を要求する必要があります。
 
-- `file:///*` 以外のURLに対する host パーミッション
+- `http://localhost/*` 以外のURLに対する host パーミッション
 - `bookmarks`
 - `clipboardRead`
 - `clipboardWrite`

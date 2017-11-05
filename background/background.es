@@ -3,11 +3,11 @@ new class Background {
 	/**
 	 * @constant {RegExp}
 	 */
-	static get ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN() {return /^file:\/\/\/[^?#]*$/;}
+	static get ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN() {return /^http:\/\/localhost(?::[0-9]+)?\/([^?#]+\/)?$/;}
 
 	constructor()
 	{
-		this.watchDirectorySettingChanged();
+		this.watchWebDAVDirectorySettingChanged();
 
 		console.group('userChromeES');
 		this.initialize()
@@ -35,12 +35,13 @@ new class Background {
 				return;
 			} else {
 				UserChromeESOptionsStorage.setOptionsToStorage({directory: ''});
-				console
-					.error(`ディレクトリのURLが、ユーザースクリプトにって不正な値「${options.directory}」に変更されたため、設定を削除し、userChromeESを再起動しました。`);
+				console.error(
+					`WebDAVディレクトリのURLが、ユーザースクリプトにって不正な値「${options.directory}」に変更されたため、設定を削除し、userChromeESを再起動しました。`
+				);
 			}
 		}
 
-		console.warn('ディレクトリのURLを設定する必要があります。');
+		console.warn('WebDAVディレクトリのURLを設定する必要があります。');
 	}
 
 	/**
@@ -50,13 +51,13 @@ new class Background {
 	 */
 	async getScriptFileURLs(directory)
 	{
-		return (await FTPClient.index(directory)).filter(fileURL => /\.uc\.(?:es|js)$/.test(fileURL));
+		return (await WebDAVClient.index(directory)).filter(fileURL => /\.uc\.(?:es|js)$/.test(fileURL));
 	}
 
 	/**
 	 * @access private
 	 */
-	watchDirectorySettingChanged(directory)
+	watchWebDAVDirectorySettingChanged(directory)
 	{
 		browser.storage.onChanged.addListener(function (changes, areaName) {
 			if (areaName === 'local') {
@@ -66,10 +67,10 @@ new class Background {
 					if (newDirectory) {
 						console.group('userChromeES');
 						if (Background.ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN.test(newDirectory)) {
-							console.info(`ディレクトリのURLが ${newDirectory} に変更されました。`);
+							console.info(`WebDAVディレクトリのURLが ${newDirectory} に変更されました。`);
 							console.groupEnd();
 						} else {
-							console.error(`ディレクトリのURLが、ユーザースクリプトにって不正な値 ${newDirectory} に変更されました。`
+							console.error(`WebDAVディレクトリのURLが、ユーザースクリプトにって不正な値 ${newDirectory} に変更されました。`
 								+ 'userChromeESを再起動します。');
 							console.groupEnd();
 							browser.runtime.reload();

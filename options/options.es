@@ -12,9 +12,8 @@ new class {
 	async handleEvent(event)
 	{
 		event.preventDefault();
-		const directory = event.target.directory.value;
 		await UserChromeESOptionsStorage.setOptionsToStorage({
-			directory: new URL((/^[A-Za-z]:[\\/]/.test(directory) ? '/' : '') + directory, 'file:///').href,
+			directory: event.target.directory.value.trim(),
 			alwaysFetchedScripts: Array.from(event.target.querySelectorAll('[name="always-fetched-scripts"]:checked'))
 				.map(input => input.value),
 		});

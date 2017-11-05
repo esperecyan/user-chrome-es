@@ -10,12 +10,12 @@
 			<h1>userChromeES</h1>
 			<form name="user-chrome-es">
 				<dl>
-					<dt><label for="user-chrome-es-directory">ディレクトリのURL</label></dt>
-					<dd><input name="directory" pattern="(file:///|[A-Za-z]:[\\/]|/)[^?#]*"
-						title="ディレクトリのフルパスを入力してください。"
-						placeholder="(例) files:///C:/Users/user/Documents/chrome/"
+					<dt><label for="user-chrome-es-directory">WebDAVディレクトリのURL</label></dt>
+					<dd><input type="url" name="directory" pattern="\s*http://localhost(?::[0-9]+)?/([^?#]+/)?\s*"
+						title="「http://localhost」で始まり、「/」で終わるURLを入力してください。"
+						placeholder="http://locahost:ポート/パス/"
 						id="user-chrome-es-directory" /></dd>
-					<dd><small>指定したディレクトリ直下の <code>*.uc.js</code>、または <code>*.uc.es</code> を、アドオン起動時に読み込みます。</small></dd>
+					<dd><small>指定したWebDAVディレクトリ直下の <code>*.uc.js</code>、または <code>*.uc.es</code> を、アドオン起動時に読み込みます。</small></dd>
 					<dt>表示されるたびに再取得するスクリプトファイル</dt>
 					<dd><small><code>@include</code> の変更は、アドオンを再読み込みするまで反映されません。</small></dd>
 					<dd><small>設定に関わらず、<code>background</code> ではアドオン起動時にのみ読み込まれます。</small></dd>
