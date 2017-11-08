@@ -98,8 +98,7 @@ window.UserScriptsInitializer = class {
 				name: metaData.name || fileName,
 				fileName: fileName,
 				originalFileName: originalFileName,
-				description: metaData.description || null,
-				includes: metaData.includes,
+				url: url,
 			});
 
 			table[fileName] = {
@@ -192,7 +191,7 @@ window.UserScriptsInitializer = class {
 
 if (location.pathname === '/background/background.xhtml') {
 	/**
-	 * @type {Array.<Object.<(?string|string[])>>}
+	 * @type {Array.<Object.<string>>}
 	 */
 	UserScriptsInitializer.scriptsInfomation = [];
 

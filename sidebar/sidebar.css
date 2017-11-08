@@ -118,17 +118,3 @@ menu menu menu menu menu menu menu menu menu > li > :only-child:not(details),
 menu menu menu menu menu menu menu menu menu > li > details:only-child > summary {
 	padding-left: 8em;
 }
-
-
-
-#user-scripts-info {
-	margin-left: 1em;
-}
-#user-scripts-info dt {
-	font-weight: bold;
-	white-space: initial;
-}
-#user-scripts-info dd {
-	margin-left: 1em;
-	white-space: initial;
-}

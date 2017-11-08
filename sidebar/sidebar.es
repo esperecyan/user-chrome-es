@@ -5,12 +5,11 @@ new class {
 		browser.runtime.getBackgroundPage().then(async function (win) {
 			await UserScriptsInitializer.executeScripts();
 
-			document.getElementById('user-scripts-info').insertAdjacentHTML('afterbegin', win.UserScriptsInitializer
-				.scriptsInfomation.map(info => h`<dt>${info.name}</dt><dd><dl>
-					<dt>ファイル名</dt><dd>${info.fileName}</dd>`
-					+ (info.description === null ? '' : h`<dt>@description</dt><dd>${info.description}</dd>`)
-					+ '<dt>@include</dt>' + info.includes.map(include => h`<dd>${include}</dd>`).join('')
-				+ '</dl></dd>').join(''));
+			document.getElementById('user-scripts-info').insertAdjacentHTML('beforeend', win.UserScriptsInitializer
+				.scriptsInfomation.map(info => h`<li><a href="${info.url}">
+					<img src="chrome://browser/content/extension.svg" alt="" />
+					${info.name}
+				</a></li>`).join(''));
 		});
 
 		const menu = document.getElementsByTagName('menu')[0];
