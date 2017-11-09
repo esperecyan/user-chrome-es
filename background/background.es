@@ -7,8 +7,6 @@ new class Background {
 
 	constructor()
 	{
-		this.watchWebDAVDirectorySettingChanged();
-
 		this.initialize().then(() => UserScriptsInitializer.basicExecuteScripts(window));
 	}
 
@@ -40,24 +38,5 @@ new class Background {
 	async getScriptFileURLs(directory)
 	{
 		return (await WebDAVClient.index(directory)).filter(fileURL => /\.uc\.(?:es|js)$/.test(fileURL));
-	}
-
-	/**
-	 * @access private
-	 */
-	watchWebDAVDirectorySettingChanged(directory)
-	{
-		browser.storage.onChanged.addListener(function (changes, areaName) {
-			if (areaName === 'local') {
-				const userChromeESOptionsStorageChnage = changes['user-chrome-es'];
-				if (userChromeESOptionsStorageChnage) {
-					const newDirectory = userChromeESOptionsStorageChnage.newValue.directory;
-					if (newDirectory && !Background.ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN.test(newDirectory)) {
-						browser.runtime.reload();
-					}
-				}
-
-			}
-		});
 	}
 }();
