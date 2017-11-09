@@ -68,51 +68,56 @@ window.UserScriptsInitializer = class {
 	 */
 	static async loadScripts(scriptFileURLs, alwaysFetchedScriptFileNames)
 	{
-		const table = {};
-
+		/**
+		 * @type {HTMLTableElement}
+		 */
+		UserScriptsInitializer.scriptsInfomation = document.createElement('table');
+		UserScriptsInitializer.scriptsInfomation.innerHTML = `
+			<thead>
+				<tr><th></th><th>@name</th><th>@description</th><th>@include</th></tr>
+			</thead>
+			<tbody>
+			</tbody>
+		`;
+		const tBody = UserScriptsInitializer.scriptsInfomation.tBodies[0];
 		for (const url of scriptFileURLs) {
 			const file = await this.getScriptFile(url);
 
 			const metaData = await this.getMetaData(file);
-			if (!this.validateMetaData(metaData, url)) {
-				continue;
-			}
+			const fileName = /[^/]*$/.exec(url)[0];
 
-			const originalFileName = /[^/]*$/.exec(url)[0];
-
-			for (const value of metaData.includes) {
-				if (alwaysFetchedScriptFileNames.includes(originalFileName)) {
-					this.scripts[value].alwaysFetched.push(url);
-				} else {
-					if (this.scripts[value].onceFetched instanceof DocumentFragment) {
-						this.scripts[value].onceFetched.append(this.createScriptElement(file));
+			const validationMessageHTML = this.getMetaDataValidationMessageHTML(metaData);
+			if (!validationMessageHTML) {
+				for (const value of metaData.includes) {
+					if (alwaysFetchedScriptFileNames.includes(fileName)) {
+						this.scripts[value].alwaysFetched.push(url);
 					} else {
-						this.scripts[value].onceFetched.push(await new Response(file).text());
+						if (this.scripts[value].onceFetched instanceof DocumentFragment) {
+							this.scripts[value].onceFetched.append(this.createScriptElement(file));
+						} else {
+							this.scripts[value].onceFetched.push(await new Response(file).text());
+						}
 					}
 				}
 			}
 
-			const fileName = decodeURIComponent(originalFileName);
-
-			UserScriptsInitializer.scriptsInfomation.push({
-				name: metaData.name || fileName,
-				fileName: fileName,
-				originalFileName: originalFileName,
-				url: url,
-			});
-
-			table[fileName] = {
-				'@name': metaData.name || null,
-				'@description': metaData.description || null,
-				'@include': metaData.includes.join('" "'),
-			};
+			const id = 'id' + Math.random();
+			tBody.insertAdjacentHTML('beforeend', h`<tr>
+				<th>
+					<input type="checkbox" name="always-fetched-scripts" value="${fileName}" id="${id}" />
+					<a href="${url}" target="_blank">${decodeURIComponent(fileName)}</a>
+				</th>`
+				+ (validationMessageHTML
+					? `<td colspan="3" class="validation-message">${validationMessageHTML}</td>`
+					: `<td><label for="${id}">${metaData.name || ''}</label></td>
+						<td>${metaData.description || ''}</td>
+						<td><ul>`
+							+ metaData.includes.map(include => h`<li><code>${include}</code></li>`).join('')
+						+ '</ul></td>')
+			+ '</tr>');
 		}
-
-		if (Object.keys(table).length > 0) {
-			console.table(table);
-			console.info('以上のスクリプトを読み込みました。');
-		} else {
-			console.info('スクリプトは一つも読み込まれていません。');
+		if (tBody.rows.length === 0) {
+			tBody.insertAdjacentHTML('beforeend', '<tr><td colspan="4">スクリプトは一つも読み込まれていません。</td></tr>');
 		}
 
 		UserScriptsInitializer.alreadyLoaded = true;
@@ -134,26 +139,17 @@ window.UserScriptsInitializer = class {
 	/**
 	 * @access private
 	 * @param {?Object} metaData
-	 * @param {string} url
-	 * @returns {boolean}
+	 * @returns {string}
 	 */
-	static validateMetaData(metaData, url)
+	static getMetaDataValidationMessageHTML(metaData)
 	{
 		if (!metaData) {
-			console.error(`メタデータが含まれていないため、 ${url} を無視します。`);
-			return false;
+			return 'メタデータが含まれていません。';
+		} else if (metaData.includes.length === 0) {
+			return '妥当な <code>@include</code> キーが含まれていません。';
+		} else {
+			return '';
 		}
-
-		if (metaData.includes.length === 0) {
-			console.error(
-				`妥当な %c@include%c キーが含まれていないため、 ${url} を無視します。`,
-				'color: black; background: rgba(255, 255, 255, 0.5); margin: 0 0.3em; padding: 0.1em 0.3em;',
-				''
-			);
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -190,11 +186,6 @@ window.UserScriptsInitializer = class {
 };
 
 if (location.pathname === '/background/background.xhtml') {
-	/**
-	 * @type {Array.<Object.<string>>}
-	 */
-	UserScriptsInitializer.scriptsInfomation = [];
-
 	/**
 	 * @access private
 	 * @type {Object.<Object.(DocumentFragment|string[])>}

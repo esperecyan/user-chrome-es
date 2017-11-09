@@ -8,6 +8,10 @@ form[name="user-chrome-es"] dt ~ dt {
 	margin-top: 1em;
 }
 
+form[name="user-chrome-es"] dd {
+	margin-left: 1em;
+}
+
 form[name="user-chrome-es"] small {
 	font-size: unset;
 	color: grey;
@@ -18,6 +22,60 @@ form[name="user-chrome-es"] code {
 	padding: 0 0.2em;
 }
 
+/*------------------------------------
+	WebDAVディレクトリのURL
+ */
 form[name="user-chrome-es"] [name="directory"] {
 	width: 35em;
+}
+
+/*------------------------------------
+	読み込まれているスクリプト
+ */
+form[name="user-chrome-es"] table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+form[name="user-chrome-es"] th,
+form[name="user-chrome-es"] td {
+	padding-left: 0.3em;
+	padding-right: 0.3em;
+}
+
+form[name="user-chrome-es"] thead,
+form[name="user-chrome-es"] tbody {
+	border-bottom: solid 1px gray;
+}
+
+form[name="user-chrome-es"] td:only-of-type {
+	text-align: center;
+}
+
+form[name="user-chrome-es"] tbody th {
+	text-align: left;
+	display: flex;
+	align-items: flex-start;
+}
+
+form[name="user-chrome-es"] tbody th a {
+	margin-left: 1em;
+}
+
+form[name="user-chrome-es"] thead tr,
+form[name="user-chrome-es"] tbody tr:nth-of-type(2n) {
+	background: lightgrey;
+}
+
+form[name="user-chrome-es"] tbody tr:nth-of-type(2n) code {
+	background: #EBEBEB;
+}
+
+form[name="user-chrome-es"] td ul {
+	list-style: none;
+	padding-left: unset;
+}
+
+form[name="user-chrome-es"] .validation-message {
+	color: crimson;
 }

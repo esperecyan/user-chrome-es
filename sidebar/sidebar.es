@@ -5,11 +5,14 @@ new class {
 		browser.runtime.getBackgroundPage().then(async function (win) {
 			await UserScriptsInitializer.executeScripts();
 
-			document.getElementById('user-scripts-info').insertAdjacentHTML('beforeend', win.UserScriptsInitializer
-				.scriptsInfomation.map(info => h`<li><a href="${info.url}">
-					<img src="chrome://browser/content/extension.svg" alt="" />
-					${info.name}
-				</a></li>`).join(''));
+			document.getElementById('user-scripts-info').append(...Array.from(
+				win.UserScriptsInitializer.scriptsInfomation.cloneNode(true).getElementsByTagName('a')
+			).map(function (anchor) {
+				anchor.insertAdjacentHTML('afterbegin', '<img src="chrome://browser/content/extension.svg" alt="" />');
+				const item = document.createElement('li');
+				item.append(anchor);
+				return item;
+			}));
 		});
 
 		const menu = document.getElementsByTagName('menu')[0];

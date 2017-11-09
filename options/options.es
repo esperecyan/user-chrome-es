@@ -35,15 +35,11 @@ new class {
 		form.save.disabled = false;
 
 		await UserScriptsInitializer.executeScripts();
-		form.getElementsByTagName('dt')[1].insertAdjacentHTML(
-			'afterend',
-			(await browser.runtime.getBackgroundPage()).UserScriptsInitializer.scriptsInfomation.map(info => h`<dd>
-				<label>
-					<input type="checkbox" name="always-fetched-scripts" value="${info.originalFileName}"`
-						+ (options.alwaysFetchedScripts.includes(info.originalFileName) ? ' checked=""' : '') + ` />
-					${info.fileName}
-				</label>
-			</dd>`).join('')
+		document.getElementById('user-chrome-es-script-files').append(
+			(await browser.runtime.getBackgroundPage()).UserScriptsInitializer.scriptsInfomation.cloneNode(true)
 		);
+		for (const input of form.querySelectorAll('[name="always-fetched-scripts"]')) {
+			input.checked = options.alwaysFetchedScripts.includes(input.value);
+		}
 	}
 }();

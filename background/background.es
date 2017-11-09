@@ -9,14 +9,7 @@ new class Background {
 	{
 		this.watchWebDAVDirectorySettingChanged();
 
-		console.group('userChromeES');
-		this.initialize()
-			.then(console.groupEnd)
-			.catch(function (exception) {
-				setTimeout(console.groupEnd, 1);
-				throw exception;
-			})
-			.then(() => UserScriptsInitializer.basicExecuteScripts(window));
+		this.initialize().then(() => UserScriptsInitializer.basicExecuteScripts(window));
 	}
 
 	/**
@@ -27,21 +20,16 @@ new class Background {
 	{
 		const options = (await UserChromeESOptionsStorage.getOptionsFromStorage());
 
+		const urls = [];
 		if (options.directory) {
 			if (Background.ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN.test(options.directory)) {
-				console.info(`${options.directory} からスクリプトを取得します。`);
-				await UserScriptsInitializer
-					.loadScripts(await this.getScriptFileURLs(options.directory), options.alwaysFetchedScripts);
-				return;
+				urls.push(...await this.getScriptFileURLs(options.directory));
 			} else {
 				UserChromeESOptionsStorage.setOptionsToStorage({directory: ''});
-				console.error(
-					`WebDAVディレクトリのURLが、ユーザースクリプトにって不正な値「${options.directory}」に変更されたため、設定を削除し、userChromeESを再起動しました。`
-				);
 			}
 		}
 
-		console.warn('WebDAVディレクトリのURLを設定する必要があります。');
+		await UserScriptsInitializer.loadScripts(urls, options.alwaysFetchedScripts);
 	}
 
 	/**
@@ -64,17 +52,8 @@ new class Background {
 				const userChromeESOptionsStorageChnage = changes['user-chrome-es'];
 				if (userChromeESOptionsStorageChnage) {
 					const newDirectory = userChromeESOptionsStorageChnage.newValue.directory;
-					if (newDirectory) {
-						console.group('userChromeES');
-						if (Background.ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN.test(newDirectory)) {
-							console.info(`WebDAVディレクトリのURLが ${newDirectory} に変更されました。`);
-							console.groupEnd();
-						} else {
-							console.error(`WebDAVディレクトリのURLが、ユーザースクリプトにって不正な値 ${newDirectory} に変更されました。`
-								+ 'userChromeESを再起動します。');
-							console.groupEnd();
-							browser.runtime.reload();
-						}
+					if (newDirectory && !Background.ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN.test(newDirectory)) {
+						browser.runtime.reload();
 					}
 				}
 
