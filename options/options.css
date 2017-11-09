@@ -1,5 +1,11 @@
 @namespace url("http://www.w3.org/1999/xhtml");
 
+html,
+body {
+	-moz-user-select: unset;
+	user-select: unset;
+}
+
 form[name="user-chrome-es"] dt {
 	font-weight: bold;
 }
