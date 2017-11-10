@@ -35,6 +35,6 @@ class WebDAVClient
 			}
 		}
 
-		return Promise.reject(new Error(`ファイル一覧の取得に失敗しました。\n\n${responseText}`));
+		return Promise.reject(new Error(`Fetching the list of files failed:\n\n${responseText}`));
 	}
 }

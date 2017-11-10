@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "userChromeES",
-	"description": "uc / userChromeJS+サブスクリプトローダ 風に、ローカルに立てたWebDAVサーバーを介し、WebExtension APIを叩くユーザースクリプトを読み込みます。",
+	"description": "__MSG_description__",
 	"version": "0.5.0",
 	"applications": {
 		"gecko": {
@@ -70,6 +70,7 @@
 		"browser_style": true,
 		"default_panel": "sidebar/sidebar.xhtml"
 	},
+	"default_locale": "ja",
 
 	"author": "100の人",
 	"homepage_url": "https://addons.mozilla.org/firefox/addon/user-chrome-es/"

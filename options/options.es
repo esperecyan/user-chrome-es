@@ -27,6 +27,26 @@ new class {
 	async initialize()
 	{
 		const form = document.forms['user-chrome-es'];
+		form.insertAdjacentHTML('beforeend', h`
+			<dl>
+				<dt><label for="user-chrome-es-directory">
+					${browser.i18n.getMessage('options_directorySettingLabel')}
+				</label></dt>
+				<dd><input type="url" name="directory" pattern="\s*http://localhost(?::[0-9]+)?/([^?#]+/)?\s*"
+					title="${browser.i18n.getMessage('options_directorySettingPatternDescription')}"
+					placeholder="http://locahost:${browser.i18n.getMessage('options_directorySettingPlaceholderPort')}/${browser.i18n.getMessage('options_directorySettingPlaceholderPath')}/"
+					id="user-chrome-es-directory" /></dd>
+				<dd><small>` + h(browser.i18n.getMessage('options_directorySettingExtensionsDescription')).replace(/\$_UC_JS\$/gu, '<code>*.uc.js</code>').replace(/\$_UC_ES\$/gu, '<code>*.uc.es</code>') + `</small></dd>
+				<dd><small>` + h(browser.i18n.getMessage('options_directorySettingMethodsDescription')).replace(/\$PROPFIND\$/gu, '<code>PROPFIND</code>').replace(/\$GET\$/gu, '<code>GET</code>') + h`</small></dd>
+				<dt>${browser.i18n.getMessage('options_loadedScriptsLabel')}</dt>
+				<dd id="user-chrome-es-script-files"></dd>
+				<dd><small>${browser.i18n.getMessage('options_alreadyLoadedDescription')}</small></dd>
+				<dd><small>` + h(browser.i18n.getMessage('options_changingMetaDataRequiredReloadingDescription')).replace(/\$KEY\$/gu, '<code>@include</code>') + `</small></dd>
+				<dd><small>` + h(browser.i18n.getMessage('options_backgroundScriptsNotice')).replace(/\$INCLUDE\$/gu, '<code>background</code>') + `</small></dd>
+			</dl>
+			<button name="save" disabled="">${browser.i18n.getMessage('options_submitButton')}</button>
+		`);
+
 		const options = await UserChromeESOptionsStorage.getOptionsFromStorage();
 
 		form.directory.value = options.directory;

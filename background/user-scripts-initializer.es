@@ -117,7 +117,10 @@ window.UserScriptsInitializer = class {
 			+ '</tr>');
 		}
 		if (tBody.rows.length === 0) {
-			tBody.insertAdjacentHTML('beforeend', '<tr><td colspan="4">スクリプトは一つも読み込まれていません。</td></tr>');
+			tBody.insertAdjacentHTML(
+				'beforeend',
+				h`<tr><td colspan="4">${browser.i18n.getMessage('options_scriptsNotLoadedMessage')}</td></tr>`
+			);
 		}
 
 		UserScriptsInitializer.alreadyLoaded = true;
@@ -144,9 +147,10 @@ window.UserScriptsInitializer = class {
 	static getMetaDataValidationMessageHTML(metaData)
 	{
 		if (!metaData) {
-			return 'メタデータが含まれていません。';
+			return h(browser.i18n.getMessage('options_metaDataNotExistedValidationMessage'));
 		} else if (metaData.includes.length === 0) {
-			return '妥当な <code>@include</code> キーが含まれていません。';
+			return h(browser.i18n.getMessage('options_requiredKeysNotExistedValidationMessage'))
+				.replace(/\$KEY\$/gu, '<code>@include</code>');
 		} else {
 			return '';
 		}
@@ -181,7 +185,8 @@ window.UserScriptsInitializer = class {
 			return response.blob();
 		}
 
-		return Promise.reject(new Error(`次のスクリプトの取得に失敗しました。\n${url}\n\n${await response.text()}`));
+		return Promise
+			.reject(new Error(`Fetching the following script file failed:\n${url}\n\n${await response.text()}`));
 	}
 };
 

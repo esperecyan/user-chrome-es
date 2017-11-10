@@ -5,7 +5,10 @@ new class {
 		browser.runtime.getBackgroundPage().then(async function (win) {
 			await UserScriptsInitializer.executeScripts();
 
-			document.getElementById('user-scripts-info').append(...Array.from(
+			const userScriptsInfo = document.getElementById('user-scripts-info');
+			userScriptsInfo.getElementsByTagName('summary')[0]
+				.append(browser.i18n.getMessage('sidebar_loadedScriptsCaption'));
+			userScriptsInfo.getElementsByTagName('menu')[0].append(...Array.from(
 				win.UserScriptsInitializer.scriptsInfomation.cloneNode(true).getElementsByTagName('a')
 			).map(function (anchor) {
 				anchor.insertAdjacentHTML('afterbegin', '<img src="chrome://browser/content/extension.svg" alt="" />');
