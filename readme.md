@@ -30,7 +30,6 @@ Addons.mozilla.org (AMO) の[userChromeES :: Firefox 向けアドオン]から�
 | `@include`     | スクリプトを追加する場所。次のいずれかを指定:<ul><li><code>background</code></li><li><code>popup</code></li><li><code>options</code></li><li><code>devtools</code></li><li><code>sidebar</code></li></ul>複数指定可能。 | **必須** |
 
 [Greasemonkey風のメタデータブロック]: https://wiki.greasespot.net/Metadata_Block#Syntax
-[ブラウザーコンソール]: https://developer.mozilla.org/docs/Tools/Browser_Console "ブラウザーコンソールは Web コンソール に似ていますが、ひとつのコンテンツタブではなくブラウザー全体に適用されます。"
 
 コード例
 --------
