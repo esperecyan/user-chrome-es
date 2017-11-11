@@ -32,7 +32,7 @@ form[name="user-chrome-es"] code {
 	WebDAVディレクトリのURL
  */
 form[name="user-chrome-es"] [name="directory"] {
-	width: 35em;
+	width: 40em;
 }
 
 /*------------------------------------

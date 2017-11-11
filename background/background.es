@@ -3,7 +3,9 @@ new class Background {
 	/**
 	 * @constant {RegExp}
 	 */
-	static get ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN() {return /^http:\/\/localhost(?::[0-9]+)?\/([^?#]+\/)?$/;}
+	static get ALLOWED_DIRECTORY_URL_PATTERN() {
+		return /^(?:http:\/\/localhost(?::[0-9]+)?\/([^?#]+\/)?|file:\/\/\/[^?#]*)$/;
+	}
 
 	constructor()
 	{
@@ -20,7 +22,7 @@ new class Background {
 
 		const urls = [];
 		if (options.directory) {
-			if (Background.ALLOWED_WEBDAV_DIRECTORY_URL_PATTERN.test(options.directory)) {
+			if (Background.ALLOWED_DIRECTORY_URL_PATTERN.test(options.directory)) {
 				urls.push(...await this.getScriptFileURLs(options.directory));
 			} else {
 				UserChromeESOptionsStorage.setOptionsToStorage({directory: ''});
@@ -37,6 +39,7 @@ new class Background {
 	 */
 	async getScriptFileURLs(directory)
 	{
-		return (await WebDAVClient.index(directory)).filter(fileURL => /\.uc\.(?:es|js)$/.test(fileURL));
+		return (await (directory.startsWith('file:///') ? FTPClient : WebDAVClient).index(directory))
+			.filter(fileURL => /\.uc\.(?:es|js)$/.test(fileURL));
 	}
 }();

@@ -12,8 +12,9 @@ new class {
 	async handleEvent(event)
 	{
 		event.preventDefault();
+		const directory = event.target.directory.value.trim();
 		await UserChromeESOptionsStorage.setOptionsToStorage({
-			directory: event.target.directory.value.trim(),
+			directory: new URL((/^[A-Za-z]:[\\/]/.test(directory) ? '/' : '') + directory, 'file:///').href,
 			alwaysFetchedScripts: Array.from(event.target.querySelectorAll('[name="always-fetched-scripts"]:checked'))
 				.map(input => input.value),
 		});
@@ -30,11 +31,12 @@ new class {
 		form.insertAdjacentHTML('beforeend', h`
 			<dl>
 				<dt><label for="user-chrome-es-directory">
-					${browser.i18n.getMessage('options_directorySettingLabel')}
+					${browser.i18n.getMessage('options_directorySettingLabel_firefox52ESR')}
 				</label></dt>
-				<dd><input type="url" name="directory" pattern="\s*http://localhost(?::[0-9]+)?/([^?#]+/)?\s*"
-					title="${browser.i18n.getMessage('options_directorySettingPatternDescription')}"
-					placeholder="http://locahost:${browser.i18n.getMessage('options_directorySettingPlaceholderPort')}/${browser.i18n.getMessage('options_directorySettingPlaceholderPath')}/"
+				<dd><input type="url" name="directory"
+					pattern="\s*(?:http://localhost(?::[0-9]+)?/([^?#]+/)?|(?:file:///|[A-Za-z]:[\\/]|/)[^?#]*)\s*"
+					title="${browser.i18n.getMessage('options_directorySettingPatternDescription_firefox52ESR')}"
+					placeholder="${browser.i18n.getMessage('options_directorySettingPlaceholder_firefox52ESR', [browser.i18n.getMessage('options_directorySettingPlaceholderPort'), browser.i18n.getMessage('options_directorySettingPlaceholderPath')])}"
 					id="user-chrome-es-directory" /></dd>
 				<dd><small>` + h(browser.i18n.getMessage('options_directorySettingExtensionsDescription')).replace(/\$_UC_JS\$/gu, '<code>*.uc.js</code>').replace(/\$_UC_ES\$/gu, '<code>*.uc.es</code>') + `</small></dd>
 				<dd><small>` + h(browser.i18n.getMessage('options_directorySettingMethodsDescription')).replace(/\$PROPFIND\$/gu, '<code>PROPFIND</code>').replace(/\$GET\$/gu, '<code>GET</code>') + h`</small></dd>

@@ -105,7 +105,7 @@ window.UserScriptsInitializer = class {
 			tBody.insertAdjacentHTML('beforeend', h`<tr>
 				<th>
 					<input type="checkbox" name="always-fetched-scripts" value="${fileName}" id="${id}" />
-					<a href="${url}" target="_blank">${decodeURIComponent(fileName)}</a>
+					${decodeURIComponent(fileName)}
 				</th>`
 				+ (validationMessageHTML
 					? `<td colspan="3" class="validation-message">${validationMessageHTML}</td>`
@@ -173,13 +173,14 @@ window.UserScriptsInitializer = class {
 	}
 
 	/**
+	 * @see [javascript — Firefox WebExtensions, get local files content by path — Stack Overflow]{@link https://stackoverflow.com/a/44516256}
 	 * @access private
 	 * @param {string} url
 	 * @returns {Promise.<Blob>}
 	 */
 	static async getScriptFile(url)
 	{
-		const response = await fetch(url);
+		const response = await fetch(url, url.startsWith('file:///') ? {mode: 'same-origin'} : {});
 
 		if (response.status === 200) {
 			return response.blob();
