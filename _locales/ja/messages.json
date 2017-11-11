@@ -105,7 +105,7 @@
 		"message": "設定に関わらず、$INCLUDE$ ではアドオン起動時にのみ読み込まれます。",
 		"description": "Description of the script list in the options page. Must not escape special characters in the “message” key value.",
 		"placeholders": {
-			"key": {
+			"include": {
 				"content": "$INCLUDE$",
 				"example": "<code>background</code>"
 			}
