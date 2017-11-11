@@ -14,6 +14,25 @@
 		"description": "Label in the options page."
 	},
 
+	"options_directorySettingLabel_firefox52ESR": {
+		"message": "ディレクトリのURL",
+		"description": "“options_directorySettingLabel” for Firefox 52 ESR."
+	},
+
+	"options_directorySettingPlaceholder_firefox52ESR": {
+		"message": "(例) $WEBDAV$　または　$FILE$",
+		"description": "The placeholder of the text box in the options page. Must not escape special characters in the “message” key value. This is for Firefox 52 ESR.",
+		"placeholders": {
+			"webdav": {
+				"content": "http://localhost:$1/$2/",
+				"example": "http://localhost:PORT/PATH/"
+			},
+			"file": {
+				"content": "file:///C:/Users/user/Documents/chrome/"
+			}
+		}
+	},
+
 	"options_directorySettingPlaceholderPort": {
 		"message": "ポート",
 		"description": "Part of the placeholder of the text box in the options page. That whole will look like “http://localhost:PORT/PATH/”."
@@ -29,9 +48,29 @@
 		"description": "Description of the pattern of the directory URL setting in the options page. (title attribute value)"
 	},
 
+	"options_directorySettingPatternDescription_firefox52ESR": {
+		"message": "「http://localhost」で始まり「/」で終わるURL、またはローカルディレクトリのフルパスを入力してください。",
+		"description": "“options_directorySettingPatternDescription” for Firefox 52 ESR."
+	},
+
 	"options_directorySettingExtensionsDescription": {
 		"message": "指定したWebDAVディレクトリ直下の $_UC_JS$、または $_UC_ES$ を、アドオン起動時に読み込みます。",
 		"description": "Description of the directory URL setting in the options page. Must not escape special characters in the “message” key value.",
+		"placeholders": {
+			"_uc_js": {
+				"content": "$_UC_JS$",
+				"example": "<code>*.uc.js</code>"
+			},
+			"_uc_es": {
+				"content": "$_UC_ES$",
+				"example": "<code>*.uc.es</code>"
+			}
+		}
+	},
+
+	"options_directorySettingExtensionsDescription_firefox52ESR": {
+		"message": "指定したWebDAVディレクトリ、またはローカルディレクトリ直下の $_UC_JS$、または $_UC_ES$ を、アドオン起動時に読み込みます。",
+		"description": "“options_directorySettingExtensionsDescription” for Firefox 52 ESR.",
 		"placeholders": {
 			"_uc_js": {
 				"content": "$_UC_JS$",
