@@ -11,47 +11,41 @@
 	},
 
 	"permissions": [
-		"http://localhost/*",
+		"<all_urls>",
 
 		"alarms",
+		"bookmarks",
 		"browserSettings",
 		"browsingData",
+		"cookies",
 		"contextMenus",
 		"contextualIdentities",
 		"downloads",
 		"downloads.open",
 		"find",
+		"geolocation",
+		"history",
 		"identity",
+		"idle",
 		"management",
 		"menus",
 		"nativeMessaging",
+		"notifications",
 		"privacy",
 		"proxy",
 		"sessions",
 		"storage",
-		"theme",
-
-		"unlimitedStorage"
-	],
-	"optional_permissions": [
-		"<all_urls>",
-
-		"bookmarks",
-		"cookies",
-		"geolocation",
-		"history",
-		"idle",
-		"notifications",
 		"tabs",
+		"theme",
 		"topSites",
 		"webNavigation",
 		"webRequest",
 		"webRequestBlocking",
 
-		"activeTab",
-
 		"clipboardWrite",
-		"clipboardRead"
+		"clipboardRead",
+
+		"unlimitedStorage"
 	],
 	"content_security_policy": "script-src 'self' blob: 'unsafe-eval'; object-src 'self' blob:",
 
