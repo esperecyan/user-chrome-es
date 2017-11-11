@@ -41,7 +41,7 @@ new class {
 				<dt>${browser.i18n.getMessage('options_loadedScriptsLabel')}</dt>
 				<dd id="user-chrome-es-script-files"></dd>
 				<dd><small>${browser.i18n.getMessage('options_alreadyLoadedDescription')}</small></dd>
-				<dd><small>` + h(browser.i18n.getMessage('options_changingMetaDataRequiredReloadingDescription')).replace(/\$KEY\$/gu, '<code>@include</code>') + `</small></dd>
+				<dd><small>` + h(browser.i18n.getMessage('options_changingMetaDataNotice')).replace(/\$KEY\$/gu, '<code>@include</code>') + `</small></dd>
 				<dd><small>` + h(browser.i18n.getMessage('options_backgroundScriptsNotice')).replace(/\$INCLUDE\$/gu, '<code>background</code>') + `</small></dd>
 			</dl>
 			<button name="save" disabled="">${browser.i18n.getMessage('options_submitButton')}</button>
