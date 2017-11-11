@@ -15,37 +15,24 @@
 
 		"alarms",
 		"bookmarks",
-		"browserSettings",
-		"browsingData",
 		"cookies",
 		"contextMenus",
-		"contextualIdentities",
 		"downloads",
 		"downloads.open",
-		"find",
-		"geolocation",
 		"history",
-		"identity",
 		"idle",
 		"management",
-		"menus",
 		"nativeMessaging",
 		"notifications",
-		"privacy",
-		"proxy",
 		"sessions",
 		"storage",
 		"tabs",
-		"theme",
 		"topSites",
 		"webNavigation",
 		"webRequest",
 		"webRequestBlocking",
 
-		"clipboardWrite",
-		"clipboardRead",
-
-		"unlimitedStorage"
+		"clipboardWrite"
 	],
 	"content_security_policy": "script-src 'self' blob: 'unsafe-eval'; object-src 'self' blob:",
 
@@ -59,11 +46,6 @@
 	"options_ui": {
 		"browser_style": true,
 		"page": "options/options.xhtml"
-	},
-	"devtools_page": "devtools/devtools.xhtml",
-	"sidebar_action": {
-		"browser_style": true,
-		"default_panel": "sidebar/sidebar.xhtml"
 	},
 	"default_locale": "en",
 
