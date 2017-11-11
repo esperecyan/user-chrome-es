@@ -70,7 +70,7 @@
 		"browser_style": true,
 		"default_panel": "sidebar/sidebar.xhtml"
 	},
-	"default_locale": "ja",
+	"default_locale": "en",
 
 	"author": "100の人",
 	"homepage_url": "https://addons.mozilla.org/firefox/addon/user-chrome-es/"

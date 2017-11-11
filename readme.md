@@ -1,57 +1,59 @@
+English / [日本語](readme.ja.md)
+
 userChromeES
 ============
-[uc] / [userChromeJS]+[サブスクリプトローダ] 風に、ローカルに立てた[WebDAV]サーバーを介し、WebExtension APIを叩くユーザースクリプトを読み込むFirefoxアドオンです。
+This is the Firefox add-on that loads, like [uc] / [userChromeJS]+[Sub-Script Loader], user scripts that uses the WebExtension APIs via WebDAV server.
 
-**※XPCOM APIにアクセスできるようにするアドオンではないため、userChromeJS用のユーザースクリプトとはまったく互換性がありません。**
+**\* This is not an add-on that make accessing the XPCOM API a possibility so absolutely nothing compatible with scripts for the userChromeJS.**
 
-WebExtensionではローカルのファイルを直接読み込めない (Fiefox 57以降) ため、WebDAVサーバー経由で読み込む手段を取っており、**あらかじめローカルにWebDAVサーバーを立てる必要があります。**
+Tha reason this add-on uses WebDAV server is add-ons cannot load local files using WebExtension API. Therefore, **you need to built [WebDAV] server.**
 
-アドオンの設定で指定したWebDAVディレクトリのURLから、拡張子が `*.uc.js`、または `*.uc.es` となっているファイルを、アドオン起動時に読み込みます。サブディレクトリからは読み込みません。
+This add-on loads files which extension is `*.uc.js` or `*.uc.es` from the WebDAV directory URL specified by add-on’s options when this add-on startup. It does not load from sub directories.
 
 [uc]: https://addons.mozilla.org/firefox/addon/uc/ "userChromeJS + Sub-Script/Overlay Loader"
-[userChromeJS]: http://userchromejs.mozdev.org/ "JavaScriptを通して、Firefoxのインターフェイスを簡単に改造するための拡張"
-[サブスクリプトローダ]: https://github.com/alice0775/userChrome.js/blob/master/userChrome.js "userChrome.jsというファイル名でプロファイルフォルダの中のchromeフォルダに置くことで、同フォルダ内の *.uc.jsファイル(example.uc.jsといったように)や *.uc.xulファイル(または*.xulファイル)を自動で全て読み込むようになります。"
-[WebDAV]: https://ja.wikipedia.org/wiki/WebDAV "WebDAVはHypertext Transfer Protocolを拡張したもので、Webサーバ上のファイル管理を目的とした分散ファイルシステムを実現するプロトコルである。"
+[userChromeJS]: http://userchromejs.mozdev.org/ "userChromeJS allows complete chrome customization when an extension is excessive."
+[Sub-Script Loader]: https://github.com/alice0775/userChrome.js/blob/master/userChrome.js "automatically includes all files ending in .uc.xul and .uc.js from the profile’s chrome folder"
+[WebDAV]: https://ja.wikipedia.org/wiki/WebDAV "Web Distributed Authoring and Versioning (WebDAV) is an extension of the Hypertext Transfer Protocol (HTTP) that allows clients to perform remote Web content authoring operations."
 
-インストール
+Installation
 ------------
-Addons.mozilla.org (AMO) の[userChromeES :: Firefox 向けアドオン]からインストールできます。
+You can install this add-on from [userChromeES – Add-ons for Firefox] on Addons.mozilla.org (AMO).
 
-[userChromeES :: Firefox 向けアドオン]: https://addons.mozilla.org/ja/firefox/addon/user-chrome-es/
+[userChromeES – Add-ons for Firefox]: https://addons.mozilla.org/firefox/addon/user-chrome-es/
 
-メタデータ
-----------
-各ユーザースクリプトには[Greasemonkey風のメタデータブロック]が必要です。当アドオンでは以下のキーを解釈します。
-
-| メタキー名     | 値の意味 |         |   
-|----------------|--------------------|---|
-| `@name`        | スクリプト名。     |   |
-| `@description` | スクリプトの概要。 |   |
-| `@include`     | スクリプトを追加する場所。次のいずれかを指定:<ul><li><code>background</code></li><li><code>popup</code></li><li><code>options</code></li><li><code>devtools</code></li><li><code>sidebar</code></li></ul>複数指定可能。 | **必須** |
-
-[Greasemonkey風のメタデータブロック]: https://wiki.greasespot.net/Metadata_Block#Syntax
-
-コード例
+MetaData
 --------
-- [userChromeESを再読み込み](https://greasyfork.org/scripts/34246/code)
+Each of user scripts needs [Greasemonkey-style metadata block]. This add-on will read the following keys.
 
-`popup` `options` `sidebar` の拡張
-----------------------------------
-ページごと置き換えるのでなければ、それぞれ以下のようなマークアップ (body要素直下) を想定しています。
+| Meta key name  | Description          |   |   
+|----------------|----------------------|---|
+| `@name`        | Name of the script.  |   |
+| `@description` | Name of the script.  |   |
+| `@include`     | Location that the script runs. Recognized values are:<ul><li><code>background</code></li><li><code>popup</code></li><li><code>options</code></li><li><code>devtools</code></li><li><code>sidebar</code></li></ul>This key may be used multiple times. | **Required** |
+
+[Greasemonkey-style metadata block]: https://wiki.greasespot.net/Metadata_Block#Syntax
+
+Code Example
+------------
+- [Reload userChromeES](https://greasyfork.org/scripts/34246/code)
+
+Extend `popup`, `options`, or `sidebar`
+---------------------------------------
+Unless script replace whole page, this add-on assumes markups (children of body element) such as:
 
 [/popup/popup.xhtml](popup/popup.xhtml)
 ---------------------------------------
 - ul
 	+ li
-		* :only-child な要素 (a要素やbutton要素)
+		* Element been :only-child (such as an a element or a button element)
 			- img
-			- テキストや要素
+			- Text or element
 	+ ……
 
 [/options/options.xhtml](options/options.xhtml)
 - article
 	+ h1
-	+ 要素
+	+ Element
 	+ ……
 - ……
 
@@ -64,17 +66,17 @@ Addons.mozilla.org (AMO) の[userChromeES :: Firefox 向けアドオン]から�
 				+ li
 				+ ……
 	+ li
-		* :only-child な要素 (a要素やbutton要素)
+		* Element been :only-child (such as an a element or a button element)
 			- img
-			- テキストや要素
+			- Text or element
 	+ ……
 
 `permissions` / `optional_permissions`
 --------------------------------------
-ユーザースクリプトはすべてのWebExtension APIを利用できますが、以下の権限は `optional_permissions` manifest.json キーに含まれています。
-そのため、`/options/options.xhtml` をタブとして開くなどした上で、[permissions API]を利用して権限を要求する必要があります。
+User scripts can use all the WebExtension APIs but the following permissions are contained in `optional_permissions` manifest.json key.
+Therefore, they need to request permissions using [permissions API] as an example, after they opened `/options/options.xhtml` in a normal browser tab.
 
-- `http://localhost/*` 以外のURLに対する host パーミッション
+- Host permissions for URLs other than `http://localhost/*`
 - `bookmarks`
 - `clipboardRead`
 - `clipboardWrite`
@@ -88,22 +90,22 @@ Addons.mozilla.org (AMO) の[userChromeES :: Firefox 向けアドオン]から�
 - `webRequest`
 - `webRequestBlocking`
 
-`activeTab` パーミッションも要求可能です。
+They can also request `activeTab` permission.
 
 [permissions API]: https://developer.mozilla.org/Add-ons/WebExtensions/API/permissions
 
 Contribution
 ------------
-Pull Request、または Issue よりお願いいたします。
+Please Pull Request or open your Issue.
 
-ライセンス
-----------
-当アドオンのライセンスは [Mozilla Public License Version 2.0] \(MPL-2.0) です。
+Licence
+-------
+This add-on is licensed under the Mozilla Public License Version 2.0 (MPL-2.0).
 
 [Mozilla Public License Version 2.0]: https://www.mozilla.org/MPL/2.0/
 
 ### [/third-party](third-party)
-当ディレクトリに含まれるファイルは、Firefoxアドオン[Greasemonkey]の一部であり、[MIT License]で公開されているスクリプトコードです。
+The files in this directory are parts of Firefox add-on [Greasemonkey] and are script codes licensed under the [MIT License].
 
 [Greasemonkey]: https://github.com/greasemonkey/greasemonkey/
-[MIT License]: https://ja.osdn.net/projects/opensource/wiki/licenses/MIT_license
+[MIT License]: https://opensource.org/licenses/mit-license

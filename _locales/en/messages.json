@@ -1,0 +1,124 @@
+{
+	"description": {
+		"message": "Like uc / userChromeJS+Sub-Script Loader, loads user scripts that uses WebExtension APIs via WebDAV server.",
+		"description": "Description of the extension."
+	},
+
+	"popup_oepnOptionsPageButton": {
+		"message": "Open userChromeES options",
+		"description": "Menu item to popup when user click the browser’s toolbar icon."
+	},
+
+	"options_directorySettingLabel": {
+		"message": "WebDAV Directory URL",
+		"description": "Label in the options page."
+	},
+
+	"options_directorySettingPlaceholderPort": {
+		"message": "PORT",
+		"description": "Part of the placeholder of the text box in the options page. That whole will look like “http://localhost:PORT/PATH/”."
+	},
+
+	"options_directorySettingPlaceholderPath": {
+		"message": "PATH",
+		"description": "Part of the placeholder of the text box in the options page. That whole will look like “http://localhost:PORT/PATH/”."
+	},
+
+	"options_directorySettingPatternDescription": {
+		"message": "Please enter a URL starting with “http://localhost” and ending with “/”.",
+		"description": "Description of the pattern of the directory URL setting in the options page. (title attribute value)"
+	},
+
+	"options_directorySettingExtensionsDescription": {
+		"message": "Loads $_UC_JS$ and $_UC_ES$ which is directly under the specified WebDAV directory when this add-on startup.",
+		"description": "Description of the directory URL setting in the options page. Must not escape special characters in the “message” key value.",
+		"placeholders": {
+			"_uc_js": {
+				"content": "$_UC_JS$",
+				"example": "<code>*.uc.js</code>"
+			},
+			"_uc_es": {
+				"content": "$_UC_ES$",
+				"example": "<code>*.uc.es</code>"
+			}
+		}
+	},
+
+	"options_directorySettingMethodsDescription": {
+		"message": "The WebDAV server needs not to allow methods other than $PROPFIND$ or $GET$.",
+		"description": "Description of the directory URL setting in the options page. Must not escape special characters in the “message” key value.",
+		"placeholders": {
+			"propfind": {
+				"content": "$PROPFIND$",
+				"example": "<code>PROPFIND</code>"
+			},
+			"get": {
+				"content": "$GET$",
+				"example": "<code>GET</code>"
+			}
+		}
+	},
+
+	"options_loadedScriptsLabel": {
+		"message": "Loaded Scripts",
+		"description": "Caption of the script list in the options page."
+	},
+
+	"options_scriptsNotLoadedMessage": {
+		"message": "No scripts were loaded.",
+		"description": "Message in the script list in the options page."
+	},
+
+	"options_metaDataNotExistedValidationMessage": {
+		"message": "The metadata does not exist.",
+		"description": "Message in the script list in the options page."
+	},
+
+	"options_requiredKeysNotExistedValidationMessage": {
+		"message": "A valid $KEY$ keys do not exist.",
+		"description": "Message in the script list in the options page. Must not escape special characters in the “message” key value.",
+		"placeholders": {
+			"key": {
+				"content": "$KEY$",
+				"example": "<code>@include</code>"
+			}
+		}
+	},
+
+	"options_alreadyLoadedDescription": {
+		"message": "The checked scripts will be re-fetched each time pages are visited.",
+		"description": "Description of the script list in the options page."
+	},
+
+	"options_changingMetaDataNotice": {
+		"message": "Changes you make to $KEY$ are not applied until this add-on are reloaded.",
+		"description": "Description of the script list in the options page. Must not escape special characters in the “message” key value.",
+		"placeholders": {
+			"key": {
+				"content": "$KEY$",
+				"example": "<code>@include</code>"
+			}
+		}
+	},
+
+	"options_backgroundScriptsNotice": {
+		"message": "Scripts running on $INCLUDE$, regardless of the settings, are loaded when this add-on startup only.",
+		"description": "Description of the script list in the options page. Must not escape special characters in the “message” key value.",
+		"placeholders": {
+			"key": {
+				"content": "$INCLUDE$",
+				"example": "<code>background</code>"
+			}
+		}
+	},
+
+	"options_submitButton": {
+		"message": "Save and reload",
+		"description": "Label of the submit button in the options page."
+	},
+
+	"sidebar_loadedScriptsCaption": {
+		"message": "Loaded Files",
+		"description": "Content of the summary element in the side bar."
+	}
+}
