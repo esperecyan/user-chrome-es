@@ -5,7 +5,8 @@
 	"version": "0.6.1",
 	"applications": {
 		"gecko": {
-			"id": "user-chrome-es@id.pokemori.jp"
+			"id": "user-chrome-es@id.pokemori.jp",
+			"strict_max_version": "52.*"
 		}
 	},
 
