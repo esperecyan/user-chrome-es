@@ -7,6 +7,18 @@ new class Background {
 		return /^(?:http:\/\/localhost(?::[0-9]+)?\/([^?#]+\/)?|file:\/\/\/[^?#]*)$/;
 	}
 
+	/**
+	 * @access private
+	 * @constant {number}
+	 */
+	static get RECONNECTION_DELAY_MILLISECONDS() {return 10000;}
+
+	/**
+	 * @access private
+	 * @constant {number}
+	 */
+	static get MAX_RECONNECTION_COUNT() {return 10;}
+
 	constructor()
 	{
 		this.initialize().then(() => UserScriptsInitializer.basicExecuteScripts(window));
@@ -39,7 +51,27 @@ new class Background {
 	 */
 	async getScriptFileURLs(directory)
 	{
-		return (await (directory.startsWith('file:///') ? FTPClient : WebDAVClient).index(directory))
-			.filter(fileURL => /\.uc\.(?:es|js)$/.test(fileURL));
+		let entries;
+		if (directory.startsWith('file:///')) {
+			entries = await FTPClient.index(directory);
+		} else {
+			let reconnectionCount = 0;
+			while (true) {
+				try {
+					entries = await WebDAVClient.index(directory);
+					break;
+				} catch (exception) {
+					if (exception.name !== 'TypeError' || ++reconnectionCount > Background.MAX_RECONNECTION_COUNT) {
+						throw exception;
+					}
+				}
+
+				await new Promise(function (resolve) {
+					setTimeout(resolve, Background.RECONNECTION_DELAY_MILLISECONDS);
+				});
+			}
+		}
+
+		return entries.filter(fileURL => /\.uc\.(?:es|js)$/.test(fileURL));
 	}
 }();
