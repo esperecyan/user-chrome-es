@@ -25,6 +25,7 @@
 		"management",
 		"menus",
 		"nativeMessaging",
+		"pkcs11",
 		"privacy",
 		"proxy",
 		"sessions",
