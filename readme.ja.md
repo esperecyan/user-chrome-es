@@ -78,9 +78,13 @@ Addons.mozilla.org (AMO) の[userChromeES :: Firefox 向けアドオン]から�
 
 - `http://localhost/*` 以外のURLに対する host パーミッション
 - `bookmarks`
+- `browserSettings`
 - `clipboardRead`
 - `clipboardWrite`
 - `cookies`
+- `downloads`
+- `downloads.open`
+- `find`
 - `geolocation`
 - `history`
 - `idle`

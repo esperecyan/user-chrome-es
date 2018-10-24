@@ -78,9 +78,13 @@ Therefore, they need to request permissions using [permissions API] as an exampl
 
 - Host permissions for URLs other than `http://localhost/*`
 - `bookmarks`
+- `browserSettings`
 - `clipboardRead`
 - `clipboardWrite`
 - `cookies`
+- `downloads`
+- `downloads.open`
+- `find`
 - `geolocation`
 - `history`
 - `idle`
