@@ -43,6 +43,7 @@
 		"history",
 		"idle",
 		"notifications",
+		"tabHide",
 		"tabs",
 		"topSites",
 		"webNavigation",
