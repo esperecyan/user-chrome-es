@@ -15,11 +15,13 @@
 		"http://localhost/*",
 
 		"alarms",
+		"captivePortal",
 		"contextMenus",
 		"contextualIdentities",
 		"dns",
 		"identity",
 		"menus",
+		"search",
 		"storage",
 		"theme",
 
