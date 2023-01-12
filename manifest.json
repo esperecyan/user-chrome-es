@@ -3,7 +3,7 @@
 	"name": "userChromeES",
 	"description": "__MSG_description__",
 	"version": "3.0.0",
-	"applications": {
+	"browser_specific_settings": {
 		"gecko": {
 			"id": "user-chrome-es@id.pokemori.jp",
 			"strict_min_version": "56.0",
