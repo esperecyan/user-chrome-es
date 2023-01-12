@@ -45,18 +45,18 @@ window.UserScriptsInitializer = class {
 			? backgroundPage.UserScriptsInitializer.scripts[includeValue]
 			: await browser.runtime.sendMessage({getUserScripts: includeValue});
 
-		if (scripts.onceFetched instanceof DocumentFragment) {
-			document.body.append(scripts.onceFetched.cloneNode(true));
-		} else {
+		if (Array.isArray(scripts.onceFetched)) {
 			scripts.onceFetched.map(setTimeout); // eval()
+		} else {
+			document.body.append(scripts.onceFetched.cloneNode(true));
 		}
 
 		for (const url of scripts.alwaysFetched) {
 			const scriptFile = await this.getScriptFile(url);
-			if (scripts.onceFetched instanceof DocumentFragment) {
-				document.body.append(this.createScriptElement(scriptFile));
-			} else {
+			if (Array.isArray(scripts.onceFetched)) {
 				setTimeout(await new Response(scriptFile).text()); // eval()
+			} else {
+				document.body.append(this.createScriptElement(scriptFile));
 			}
 		}
 	}
@@ -92,10 +92,10 @@ window.UserScriptsInitializer = class {
 					if (alwaysFetchedScriptFileNames.includes(fileName)) {
 						this.scripts[value].alwaysFetched.push(url);
 					} else {
-						if (this.scripts[value].onceFetched instanceof DocumentFragment) {
-							this.scripts[value].onceFetched.append(this.createScriptElement(file));
-						} else {
+						if (Array.isArray(this.scripts[value].onceFetched)) {
 							this.scripts[value].onceFetched.push(await new Response(file).text());
+						} else {
+							this.scripts[value].onceFetched.append(this.createScriptElement(file));
 						}
 					}
 				}
